@@ -6,7 +6,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 def create_facebook_feed():
-    """Create a sample Facebook feed for testing"""
+    """Create Facebook feed optimized for Dular Mart Carousel ads"""
     try:
         # Create RSS root with proper namespace
         rss = ET.Element('rss')
@@ -15,30 +15,73 @@ def create_facebook_feed():
         
         channel = ET.SubElement(rss, 'channel')
         
-        # Channel info
-        ET.SubElement(channel, 'title').text = "Amazon Products Feed"
-        ET.SubElement(channel, 'link').text = "https://www.amazon.in"
-        ET.SubElement(channel, 'description').text = "Product feed for Facebook"
+        # Channel info for Dular Mart
+        ET.SubElement(channel, 'title').text = "Dular Mart - Baby Products Feed"
+        ET.SubElement(channel, 'link').text = "https://www.facebook.com/dualmart"
+        ET.SubElement(channel, 'description').text = "Premium baby products from Dular Mart - Perfect for Facebook Carousel Ads"
         
-        # Create sample products
-        sample_products = [
-            {'id': 'TEST001', 'title': 'Silicone Feeding Mat', 'price': '499 INR'},
-            {'id': 'TEST002', 'title': 'Stroller Hooks', 'price': '299 INR'},
-            {'id': 'TEST003', 'title': 'Baby Feeding Set', 'price': '799 INR'}
+        # Dular Mart Products (Replace with your actual products)
+        dular_mart_products = [
+            {
+                'id': 'DM-SILICONE-001', 
+                'title': 'Dular Mart Premium Silicone Feeding Mat - Large Size',
+                'description': 'Waterproof, non-slip silicone feeding mat with beautiful designs. Easy to clean, food-grade material. Perfect for messy eaters!',
+                'price': '499 INR',
+                'image': 'https://example.com/images/silicone-mat.jpg',  # Replace with actual image URL
+                'category': 'Baby Feeding'
+            },
+            {
+                'id': 'DM-STROLLER-002', 
+                'title': 'Dular Mart Heavy Duty Stroller Hooks - Pack of 2',
+                'description': 'Strong metal hooks for strollers, wheelchairs, and shopping carts. Hold up to 5kg each. Makes shopping hands-free!',
+                'price': '299 INR',
+                'image': 'https://example.com/images/stroller-hooks.jpg',  # Replace with actual image URL
+                'category': 'Stroller Accessories'
+            },
+            {
+                'id': 'DM-FEEDING-003', 
+                'title': 'Dular Mart Complete Baby Feeding Set - 5 Pieces',
+                'description': 'Complete feeding set includes bowl, spoon, fork, cup, and mat. BPA-free, dishwasher safe, beautiful colors.',
+                'price': '899 INR',
+                'image': 'https://example.com/images/feeding-set.jpg',  # Replace with actual image URL
+                'category': 'Baby Feeding'
+            },
+            {
+                'id': 'DM-BIB-004', 
+                'title': 'Dular Mart Waterproof Baby Bibs - Pack of 3',
+                'description': 'Soft waterproof bibs with food catcher pocket. Easy to clean, adjustable neck, cute designs.',
+                'price': '349 INR',
+                'image': 'https://example.com/images/baby-bibs.jpg',  # Replace with actual image URL
+                'category': 'Baby Feeding'
+            },
+            {
+                'id': 'DM-TOY-005', 
+                'title': 'Dular Mart Educational Baby Toys - Sensory Set',
+                'description': 'Montessori-inspired sensory toys for baby development. Safe, non-toxic materials, various textures.',
+                'price': '599 INR',
+                'image': 'https://example.com/images/baby-toys.jpg',  # Replace with actual image URL
+                'category': 'Baby Toys'
+            }
         ]
         
-        for product in sample_products:
+        for product in dular_mart_products:
             item = ET.SubElement(channel, 'item')
+            
+            # REQUIRED fields for carousel
             ET.SubElement(item, 'g:id').text = product['id']
             ET.SubElement(item, 'g:title').text = product['title']
-            ET.SubElement(item, 'g:description').text = product['title']
-            ET.SubElement(item, 'g:link').text = f"https://www.amazon.in/dp/{product['id']}"
-            ET.SubElement(item, 'g:image_link').text = "https://via.placeholder.com/500x500.png?text=Product+Image"
+            ET.SubElement(item, 'g:description').text = product['description']
+            ET.SubElement(item, 'g:link').text = f"https://www.facebook.com/dualmart/products/{product['id']}"
+            ET.SubElement(item, 'g:image_link').text = product['image']
             ET.SubElement(item, 'g:condition').text = 'new'
             ET.SubElement(item, 'g:availability').text = 'in stock'
             ET.SubElement(item, 'g:price').text = product['price']
-            ET.SubElement(item, 'g:brand').text = 'Amazon'
-        
+            
+            # RECOMMENDED fields
+            ET.SubElement(item, 'g:brand').text = 'Dular Mart'
+            ET.SubElement(item, 'g:google_product_category').text = '502088'  # Baby & Toddler
+            ET.SubElement(item, 'g:product_type').text = product['category']
+            
         # Generate XML
         xml_str = '<?xml version="1.0" encoding="UTF-8"?>\n'
         xml_str += ET.tostring(rss, encoding='unicode', method='xml')
@@ -47,7 +90,7 @@ def create_facebook_feed():
         with open('facebook_feed.xml', 'w', encoding='utf-8') as f:
             f.write(xml_str)
         
-        logger.info("Sample Facebook feed generated successfully")
+        logger.info("Dular Mart Facebook feed generated successfully")
         return True
         
     except Exception as e:
